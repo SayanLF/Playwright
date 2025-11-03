@@ -10,6 +10,16 @@ jobs:
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 60
+    environment: test
+
+    env:
+      API_URL: ${{ secrets.API_URL }}
+      BASE_URL: ${{ secrets.BASE_URL }}
+      TEST_USER: ${{ secrets.TEST_USER }}
+      TEST_PASS: ${{ secrets.TEST_PASS }}
+      GOOGLE_USER: ${{ secrets.GOOGLE_USER }}
+      GOOGLE_PASS: ${{ secrets.GOOGLE_PASS }}
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
     steps:
       - uses: actions/checkout@v4
@@ -19,6 +29,15 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+      - name: Debug environment variables
+        run: |
+          echo "Secrets available:"
+          echo "${{ secrets.TEST_USER != '' && '✅ TEST_USER found' || '❌ TEST_USER missing' }}"
+          echo "${{ secrets.BASE_URL != '' && '✅ API_URL found' || '❌ API_URL missing' }}"
+          echo "${{ secrets.API_URL != '' && '✅ API_URL found' || '❌ API_URL missing' }}"
+          echo "${{ secrets.TEST_PASS != '' && '✅ GOOGLE_USER found' || '❌ GOOGLE_USER missing' }}"
+          echo "${{ secrets.SLACK_WEBHOOK_URL != '' && '✅ GOOGLE_USER found' || '❌ GOOGLE_USER missing' }}"
+
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
@@ -26,20 +45,11 @@ jobs:
       # ✅ Run Playwright tests with CTRF + HTML reports
       - name: Run Playwright tests
         run: |
-          mkdir -p test-results
-          npx playwright test --reporter=html,ctrf > playwright.log || true
+          echo $TEST_USER
+          echo $TEST_PASSWORD
+          npx playwright test
+          ls
         continue-on-error: true
-
-      # ✅ Upload HTML + CTRF reports even if tests failed
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: playwright-report
-          path: |
-            playwright-report/
-            test-results/
-            playwright.log
-          retention-days: 30
 
       # ✅ Send Slack Notification (using your Slack Webhook)
       - name: Send Slack Notification
@@ -47,12 +57,9 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
-          if [ -f test-results/test-results.json ]; then
-            npx slack-ctrf results test-results/test-results.json \
-              --title "Playwright Test Summary" \
-              --prefix "🤖 Zanity CI • Playwright Run" \
-              --suffix "📎 Check full HTML report in GitHub artifacts." \
-              --onFailOnly false
+          pwd
+          if [ -f ./ctrf/ctrf-report.json ]; then
+            npx slack-ctrf results ./ctrf/ctrf-report.json --webhook-url ${{ secrets.SLACK_WEBHOOK_URL }}
           else
             echo "⚠️ CTRF JSON file not found. Skipping Slack notification."
           fi
