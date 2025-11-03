@@ -1,32 +1,30 @@
-name: Playwright Tests with Slack Notifications
+name: Playwright Tests
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, master ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, master ]
 
 jobs:
   test:
+    timeout-minutes: 60
     runs-on: ubuntu-latest
 
     steps:
-      - name: 🧩 Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: 🧰 Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: lts/*
 
-      - name: 📦 Install dependencies
+      - name: Install dependencies
         run: npm ci
 
-      - name: 🎭 Install Playwright Browsers
+      - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      # ✅ Set environment variables from GitHub Secrets
-      - name: 🔐 Setup Environment Variables
+      - name: Set environment variables
         run: |
           echo "BASE_URL=${{ secrets.BASE_URL }}" >> $GITHUB_ENV
           echo "API_URL=${{ secrets.API_URL }}" >> $GITHUB_ENV
@@ -35,14 +33,21 @@ jobs:
           echo "GOOGLE_USER=${{ secrets.GOOGLE_USER }}" >> $GITHUB_ENV
           echo "GOOGLE_PASS=${{ secrets.GOOGLE_PASS }}" >> $GITHUB_ENV
 
-      # ✅ Run Playwright tests and output CTRF (Compact Test Result Format)
-      - name: 🧪 Run Playwright Tests
-        run: npx playwright test --reporter=ctfr,json
+      - name: Run Playwright tests
+        run: npx playwright test --reporter=dot,json --output=test-results.json
 
-      # ✅ Send Slack report using ctrf-io/slack-test-reporter
-      - name: 📣 Send Slack Test Report
-        if: always()
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+      - name: Send Slack notification
+        # Use the correct version tag from slack-test-reporter
         uses: ctrf-io/slack-test-reporter@v0.0.31
+        if: ${{ always() }}
         with:
           webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
           results-file: "test-results.json"
