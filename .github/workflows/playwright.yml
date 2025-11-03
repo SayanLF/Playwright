@@ -54,6 +54,10 @@ jobs:
       # ✅ Send Slack notification (CTRf CLI)
       - name: Send Slack Notification
         if: always()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
           npx slack-ctrf results test-results/test-results.json \
-          --webhook-url ${{ secrets.SLACK_WEBHOOK_URL }}
+            --title "Playwright Test Report" \
+            --prefix "🔍 Zanity CI • Playwright" \
+            --suffix "See full HTML report in GitHub artifacts."
