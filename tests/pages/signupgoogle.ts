@@ -16,23 +16,26 @@ export class SignupGooglePage {
   }
 
   async clickGoogleSignIn() {
+    await this.page.getByRole("link", { name: "Sign up" }).click();
     await this.page
       .getByRole("button", { name: "google Log in with Google" })
       .click();
   }
 
   async handleGoogleAuth(email: string, password: string) {
-    const popup = await this.page.context().waitForEvent("page");
 
-    await popup.getByRole("textbox", { name: "Email or phone" }).fill(email);
-    await popup.getByRole("button", { name: "Next" }).click();
+    await this.page
+      .getByRole("textbox", { name: "Email or phone" })
+      .fill(email);
+    await this.page.getByRole("button", { name: "Next" }).click();
 
-    await popup
+    await this.page
       .getByRole("textbox", { name: "Enter your password" })
       .fill(password);
-    await popup.getByRole("button", { name: "Next" }).click();
+    await this.page.getByRole("button", { name: "Next" }).click();
+    await this.page.getByRole("button", { name: "Continue" }).click();
 
-    await popup.waitForLoadState("networkidle");
+    
   }
 
   async completeOnboardingFlow() {
