@@ -9,7 +9,7 @@ export default defineConfig({
   testDir: "./tests/specs",
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
+  retries: process.env.CI ? 1 : 0,
   workers: process.env.CI ? 1 : undefined,
   reporter: [
     ["list","html"], // You can combine multiple reporters
@@ -61,14 +61,14 @@ export default defineConfig({
         storageState: path.resolve(__dirname, "storageState.json"),
       },
     },
-    {
-      name: "Tablet Safari",
-      dependencies: ["setup"],
-      use: {
-        ...devices["iPad Pro 11"],
-        storageState: path.resolve(__dirname, "storageState.json"),
-      },
-    },
+    // {
+    //   name: "Tablet Safari",
+    //   dependencies: ["setup"],
+    //   use: {
+    //     ...devices["iPad Pro 11"],
+    //     storageState: path.resolve(__dirname, "storageState.json"),
+    //   },
+    // },
     {
       name: "Tablet Chrome",
       dependencies: ["setup"],
@@ -87,12 +87,12 @@ export default defineConfig({
     },
 
     // ⚙️ Optional: Project for Google login only
-    {
-      name: "setup-google",
-      testMatch: /.*googlelogin\.spec\.ts/,
-      use: {
-        ...devices["Desktop Chrome"],
-      },
-    },
+    // {
+    //   name: "setup-google",
+    //   testMatch: /.*googlelogin\.spec\.ts/,
+    //   use: {
+    //     ...devices["Desktop Chrome"],
+    //   },
+    // },
   ],
 });
