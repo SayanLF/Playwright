@@ -18,9 +18,7 @@ test.describe("Google Signup Flow", () => {
     const email = process.env.GOOGLE_USER!;
     const password = process.env.GOOGLE_PASS!;
     await signupGooglePage.handleGoogleAuth(email, password);
-
-    // 4️⃣ Wait for redirect to your app after login
-    await page.waitForURL("**/onboarding", { timeout: 120000 }); // waits up to 2 mins
+    
 
     // 5️⃣ Complete onboarding flow
     await signupGooglePage.completeOnboardingFlow();

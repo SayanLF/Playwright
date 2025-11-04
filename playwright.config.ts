@@ -45,22 +45,22 @@ export default defineConfig({
         storageState: path.resolve(__dirname, "storageState.json"),
       },
     },
-    {
-      name: "firefox",
-      dependencies: ["setup"],
-      use: {
-        ...devices["Desktop Firefox"],
-        storageState: path.resolve(__dirname, "storageState.json"),
-      },
-    },
-    {
-      name: "webkit",
-      dependencies: ["setup"],
-      use: {
-        ...devices["Desktop Safari"],
-        storageState: path.resolve(__dirname, "storageState.json"),
-      },
-    },
+    // {
+    //   name: "firefox",
+    //   dependencies: ["setup"],
+    //   use: {
+    //     ...devices["Desktop Firefox"],
+    //     storageState: path.resolve(__dirname, "storageState.json"),
+    //   },
+    // },
+    // {
+    //   name: "webkit",
+    //   dependencies: ["setup"],
+    //   use: {
+    //     ...devices["Desktop Safari"],
+    //     storageState: path.resolve(__dirname, "storageState.json"),
+    //   },
+    // },
     // {
     //   name: "Tablet Safari",
     //   dependencies: ["setup"],

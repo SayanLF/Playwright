@@ -33,15 +33,19 @@ export class SignupGooglePage {
       .getByRole("textbox", { name: "Enter your password" })
       .fill(password);
     await this.page.getByRole("button", { name: "Next" }).click();
-    await this.page.getByRole("button", { name: "Continue" }).click();
+    // await this.page.getByRole("button", { name: "Continue" }).click();
 
     
   }
 
   async completeOnboardingFlow() {
     const page = this.page;
+    await page.waitForURL("**/onboarding", {
+      timeout: 120000, // waits up to 2 minutes
+      waitUntil: "load",
+    });
 
-    await page.goto("https://zanity-app.vercel.app/onboarding");
+    
 
     await page.getByRole("button", { name: "Legal & Compliance" }).click();
     await page.getByRole("button", { name: "Something else" }).click();
