@@ -69,22 +69,22 @@ export default defineConfig({
     //     storageState: path.resolve(__dirname, "storageState.json"),
     //   },
     // },
-    {
-      name: "Tablet Chrome",
-      dependencies: ["setup"],
-      use: {
-        ...devices["Galaxy Tab S4"],
-        storageState: path.resolve(__dirname, "storageState.json"),
-      },
-    },
-    {
-      name: "Tablet Firefox",
-      dependencies: ["setup"],
-      use: {
-        ...devices["Galaxy Tab S4"],
-        storageState: path.resolve(__dirname, "storageState.json"),
-      },
-    },
+    // {
+    //   name: "Tablet Chrome",
+    //   dependencies: ["setup"],
+    //   use: {
+    //     ...devices["Galaxy Tab S4"],
+    //     storageState: path.resolve(__dirname, "storageState.json"),
+    //   },
+    // },
+    // {
+    //   name: "Tablet Firefox",
+    //   dependencies: ["setup"],
+    //   use: {
+    //     ...devices["Galaxy Tab S4"],
+    //     storageState: path.resolve(__dirname, "storageState.json"),
+    //   },
+    // },
 
     // ⚙️ Optional: Project for Google login only
     // {

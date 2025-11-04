@@ -57,12 +57,10 @@ export class LoginGooglePage {
     await this.page
       .getByRole("textbox", { name: "Enter your password" })
       .fill(password);
-    await this.page.getByRole("button", { name: "Next" }).click();
+    await this.page.getByRole("button", { name: "Next" }).click();   
   }
 
   async assertLoginSuccessful() {
-    await this.page
-      .getByRole("heading", { name: "Zanity" })
-      .waitFor({ timeout: 60000 });
+    await this.page.getByRole("heading", { name: "Zanity" });
   }
 }
