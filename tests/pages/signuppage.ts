@@ -5,8 +5,10 @@ export class SignupPage {
   constructor(private page: Page) {}
 
   async goto() {
-    // 🔗 Replace with your real signup URL
-    await this.page.goto("https://zanity-app.vercel.app/auth/signup");
+    // ✅ Use environment variable instead of hardcoding URL
+    const baseUrl =
+      process.env.BASE_URL || "https://zanity-app.vercel.app/auth/login";
+    await this.page.goto(baseUrl);
   }
 
   async fillSignupForm(

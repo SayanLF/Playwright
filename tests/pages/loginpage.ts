@@ -4,7 +4,10 @@ export class LoginPage {
   constructor(private page: Page) {}
 
   async goto() {
-    await this.page.goto("https://zanity-app.vercel.app/auth/login");
+    // ✅ Use environment variable instead of hardcoding URL
+    const baseUrl =
+      process.env.BASE_URL || "https://zanity-app.vercel.app/auth/login";
+    await this.page.goto(baseUrl);
   }
 
   async login(email: string, password: string) {
