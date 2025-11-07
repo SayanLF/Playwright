@@ -4,8 +4,8 @@ export class DashboardPage {
   constructor(private page: Page) {}
 
   async goto() {
-    await this.page.goto("/"); // ✅ Explicitly go to dashboard route (adjust if your app uses '/')
-    await expect(this.page).toHaveURL("/"); // Ensure you're on the dashboard page
+    await this.page.goto("/review-console/new-review"); // ✅ Explicitly go to dashboard route (adjust if your app uses '/')
+    await expect(this.page).toHaveURL("/review-console/new-review"); // Ensure you're on the dashboard page
   }
 
   /**

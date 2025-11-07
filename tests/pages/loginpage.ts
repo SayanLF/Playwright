@@ -17,6 +17,6 @@ export class LoginPage {
   }
 
   async assertDashboardVisible() {
-    await this.page.waitForSelector("text=Zanity", { timeout: 10000 });
+    await this.page.waitForSelector("text=New Review", { timeout: 10000 });
   }
 }

@@ -12,6 +12,7 @@
     "@types/node": "^24.9.1",
     "dotenv": "^17.2.3",
     "playwright-ctrf-json-reporter": "^0.0.26",
+    "playwright-slack-report": "^1.1.100",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   }

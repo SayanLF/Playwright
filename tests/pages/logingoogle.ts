@@ -61,6 +61,6 @@ export class LoginGooglePage {
   }
 
   async assertLoginSuccessful() {
-    await this.page.getByRole("heading", { name: "Zanity" });
+    await this.page.getByRole("heading", { name: "New Review" });
   }
 }

@@ -6,7 +6,7 @@ test.describe("Dashboard", () => {
     const dashboard = new DashboardPage(page);
     await dashboard.goto(); // Will open / while already logged in
     await dashboard.verifyUserWelcome();
-    expect(await page.isVisible("text=Zanity")).toBeTruthy();
+    expect(await page.isVisible("text=New Review")).toBeTruthy();
     await dashboard.verifyDashboardLinks([
       "Review Console",
       "Smart Search",

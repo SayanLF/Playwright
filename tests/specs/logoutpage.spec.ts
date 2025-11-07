@@ -7,7 +7,7 @@ test.describe("Logout Flow", () => {
 
     // Step 1: Navigate to dashboard (already authenticated via storageState)
     await page.goto("/"); // adjust if your dashboard route is "/"
-
+    
     // Ensure user is logged in
     await expect(page.locator("text=Zanity")).toBeVisible({ timeout: 10000 });
 

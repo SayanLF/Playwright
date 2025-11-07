@@ -6,24 +6,37 @@ import path from "path";
 // dotenv.config({ path: path.resolve(__dirname, "env/.env") });
 
 export default defineConfig({
-  testDir: "./tests/specs",
-  fullyParallel: true,
-  forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 1 : 0,
-  workers: process.env.CI ? 1 : undefined,
+  // … your existing config …
   reporter: [
-    ["list","html"], // You can combine multiple reporters
-    ["playwright-ctrf-json-reporter", {}],
-    
+    ["list"],
+    [
+      "./node_modules/playwright-slack-report/dist/src/SlackReporter.js",
+      {
+        channels: ["pw-tests", "ci"], // Slack channels
+        sendResults: "always", // "always" | "on-failure" | "off"
+        slackWebHookUrl: process.env.SLACK_WEBHOOK_URL,
+        // Alternatively use bot OAuth token:
+        // slackOAuthToken: process.env.SLACK_BOT_USER_OAUTH_TOKEN,
+        meta: [
+          { key: "buildNumber", value: process.env.GITHUB_RUN_NUMBER },
+          { key: "branch", value: process.env.GITHUB_REF },
+          {
+            key: "buildUrl",
+            value:
+              process.env.GITHUB_SERVER_URL +
+              "/" +
+              process.env.GITHUB_REPOSITORY +
+              "/actions/runs/" +
+              process.env.GITHUB_RUN_ID,
+          },
+        ],
+        maxNumberOfFailuresToShow: 5,
+        disableUnfurl: true,
+        showInThread: false,
+      },
+    ],
+    ["html", { outputFolder: "playwright-report", open: "never" }],
   ],
-
-  /* Default options shared by all projects */
-  use: {
-    baseURL: process.env.BASE_URL || "http://localhost:3000",
-    headless: true,
-    screenshot: "only-on-failure",
-    trace: "retain-on-failure",
-  },
 
   /* Projects */
   projects: [

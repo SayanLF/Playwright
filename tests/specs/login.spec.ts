@@ -12,6 +12,6 @@ test.describe("Login Flow", () => {
     await page.context().storageState({ path: "storageState.json" });
 
     // Optional assertion
-    expect(await page.isVisible("text=Zanity")).toBeTruthy();
+    expect(await page.isVisible("text=New Review")).toBeTruthy();
   });
 });
