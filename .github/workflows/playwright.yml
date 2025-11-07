@@ -37,8 +37,7 @@ jobs:
           echo "${{ secrets.API_URL != '' && '✅ API_URL found' || '❌ API_URL missing' }}"
           echo "${{ secrets.TEST_PASS != '' && '✅ TEST_PASS found' || '❌ TEST_PASS missing' }}"
           echo "${{ secrets.SLACK_WEBHOOK_URL != '' && '✅ SLACK_WEBHOOK_URL found' || '❌ SLACK_WEBHOOK_URL missing' }}"
-      - name: Run Playwright tests
-        run: npx playwright test --reporter=html,json
+      
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
